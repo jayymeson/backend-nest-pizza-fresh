@@ -14,6 +14,6 @@ export class TableService {
   }
 
   findAll() {
-    return 'Find all tables';
+    return this.tables;
   }
 }
