@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { CreateUsersDTO } from './dto/create.users.dto';
 
 @Injectable()
 export class UsersService {
@@ -6,7 +7,7 @@ export class UsersService {
     return 'Find all message';
   }
 
-  create() {
-    return 'Create users';
+  create(createUsersDto: CreateUsersDTO) {
+    return 'Create users' + JSON.stringify(createUsersDto);
   }
 }
