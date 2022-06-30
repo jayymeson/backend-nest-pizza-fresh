@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { uuid } from 'uuidv4';
 import { CreateUsersDTO } from './dto/create.users.dto';
 import { Users } from './entities/users.entity';
 
@@ -10,9 +11,14 @@ export class UsersService {
   }
 
   create(createUsersDto: CreateUsersDTO) {
-    const user: Users = { id: 'random_id', ...createUsersDto };
+    const newUser: Users = {
+      id: uuid(),
+      ...createUsersDto,
+      createdAt: undefined,
+      updatedAt: undefined,
+    };
+    this.users.push(newUser);
 
-    this.users.push(user);
-    return user;
+    return newUser;
   }
 }
