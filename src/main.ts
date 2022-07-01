@@ -10,7 +10,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('PizzaFresh')
-    .setDescription('Aplicação para gestão das mesas de uma pizzaria')
+    .setDescription('Application for managing orders for a pizzeria... 😋')
     .setVersion('1.0.0')
     .addTag('status')
     .addTag('table')
