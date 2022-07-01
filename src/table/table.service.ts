@@ -12,7 +12,12 @@ export class TableService {
   tables: Table[] = [];
 
   create(createTableDto: CreateTableDTO) {
-    const newTable: Table = { id: uuid(), ...createTableDto };
+    const newTable: Table = {
+      id: uuid(),
+      ...createTableDto,
+      createdAt: undefined,
+      updatedAt: undefined,
+    };
     this.tables.push(newTable);
 
     return newTable;

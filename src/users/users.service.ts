@@ -17,6 +17,7 @@ export class UsersService {
       createdAt: undefined,
       updatedAt: undefined,
     };
+
     this.users.push(newUser);
 
     return newUser;
