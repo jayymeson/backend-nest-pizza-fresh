@@ -7,13 +7,14 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { CreateUsersDTO } from './dto/create.users.dto';
 import { UpdateUserDto } from './dto/updated.user.dto';
 import { Users } from './entities/users.entity';
 import { UsersService } from './users.service';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private userService: UsersService) {}

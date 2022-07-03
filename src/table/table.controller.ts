@@ -4,7 +4,7 @@ import { TableService } from './table.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Tables } from './entities/table.entity';
 
-@ApiTags('status')
+@ApiTags('table')
 @Controller('table')
 export class TableControllers {
   constructor(private tableService: TableService) {}
