@@ -47,7 +47,7 @@ export class UsersController {
     summary: 'Delete user',
   })
   delete(@Param('id') id: string) {
-    return this.userService.delete(id);
+    return this.userService.remove(id);
   }
 
   @Patch(':id')
@@ -58,6 +58,6 @@ export class UsersController {
     @Param('id') id: string,
     @Body() UpdateUserDto: UpdateUserDto,
   ): Promise<User> {
-    return this.userService.remove(id, UpdateUserDto);
+    return this.userService.update(id, UpdateUserDto);
   }
 }

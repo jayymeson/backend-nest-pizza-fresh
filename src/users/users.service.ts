@@ -26,13 +26,13 @@ export class UsersService {
   findOne(id: string): Promise<User> {
     return this.prisma.user.findUnique({ where: { id: id } });
   }
-  delete(id: string) {
-    return this.prisma.user.delete({
+  remove(id: string) {
+    return this.prisma.user.remove({
       where: { id: id },
       select: { nickname: true, email: true },
     });
   }
-  remove(id: string, createUsersDto: UpdateUserDto) {
+  update(id: string, createUsersDto: UpdateUserDto) {
     return this.prisma.user.update({ where: { id }, data: createUsersDto });
   }
 }
