@@ -10,7 +10,9 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { CreateUsersDTO } from './dto/create.users.dto';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { UpdateUserDto } from './dto/updated.user.dto';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Users } from './entities/users.entity';
 import { UsersService } from './users.service';
 
@@ -38,7 +40,7 @@ export class UsersController {
   @ApiOperation({
     summary: 'Create users',
   })
-  create(@Body() createUsersDto: CreateUsersDTO): Promise<Users> {
+  create(@Body() createUsersDto: CreateUsersDTO): Promise<User | void> {
     return this.userService.create(createUsersDto);
   }
 
@@ -57,7 +59,7 @@ export class UsersController {
   update(
     @Param('id') id: string,
     @Body() UpdateUserDto: UpdateUserDto,
-  ): Promise<User> {
+  ): Promise<User | void> {
     return this.userService.update(id, UpdateUserDto);
   }
 }

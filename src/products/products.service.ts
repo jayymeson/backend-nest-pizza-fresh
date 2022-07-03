@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -12,22 +16,53 @@ export class ProductsService {
     return this.prisma.product.findMany();
   }
 
-  create(createProductDto: CreateProductDto): Promise<Product> {
-    return this.prisma.product.create({ data: createProductDto });
+  async create(createProductDto: CreateProductDto): Promise<Product | void> {
+    return this.prisma.product
+      .create({ data: createProductDto })
+      .catch(this.handleErrorConstraintUnique);
   }
 
-  findOne(id: string) {
-    return this.prisma.product.findUnique({ where: { id: id } });
-  }
-
-  update(id: string, updateProductDto: UpdateProductDto) {
-    return this.prisma.product.update({
+  async verifyingTheUser(id: string): Promise<Product> {
+    const product: Product = await this.prisma.product.findUnique({
       where: { id },
-      data: updateProductDto,
     });
+
+    if (!product) {
+      throw new NotFoundException(`ID record '${id}' not found`);
+    }
+
+    return product;
   }
 
-  remove(id: string) {
+  handleErrorConstraintUnique(error: Error): never {
+    const splitedMessage = error.message.split('`');
+
+    const errorMessage = `Input '${
+      splitedMessage[splitedMessage.length - 2]
+    }' is not respecting the UNIQUE constraint  `;
+
+    throw new UnprocessableEntityException(errorMessage);
+  }
+
+  findOne(id: string): Promise<Product> {
+    return this.verifyingTheUser(id);
+  }
+
+  async update(
+    id: string,
+    updateProductDto: UpdateProductDto,
+  ): Promise<Product | void> {
+    await this.verifyingTheUser(id);
+    return this.prisma.product
+      .update({
+        where: { id },
+        data: updateProductDto,
+      })
+      .catch(this.handleErrorConstraintUnique);
+  }
+
+  async remove(id: string) {
+    await this.verifyingTheUser(id);
     return this.prisma.product.delete({ where: { id } });
   }
 }
