@@ -27,7 +27,7 @@ export class CreateUsersDTO {
   @IsString()
   @MinLength(8)
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'weak password',
+    message: 'Weak password',
   })
   @ApiProperty({
     example: '@Abc1234',
