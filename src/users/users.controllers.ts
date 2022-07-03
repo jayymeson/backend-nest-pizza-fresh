@@ -7,13 +7,16 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { CreateUsersDTO } from './dto/create.users.dto';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { UpdateUserDto } from './dto/updated.user.dto';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Users } from './entities/users.entity';
 import { UsersService } from './users.service';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private userService: UsersService) {}
@@ -21,7 +24,7 @@ export class UsersController {
   @ApiOperation({
     summary: 'Find all users',
   })
-  findAll() {
+  findAll(): Promise<User[]> {
     return this.userService.findAll();
   }
 
@@ -29,15 +32,15 @@ export class UsersController {
   @ApiOperation({
     summary: 'Find by id users',
   })
-  findById(@Param('id') id: string): Promise<User> {
-    return this.userService.findById(id);
+  findOne(@Param('id') id: string): Promise<User> {
+    return this.userService.findOne(id);
   }
 
   @Post()
   @ApiOperation({
     summary: 'Create users',
   })
-  create(@Body() createUsersDto: CreateUsersDTO): Promise<Users> {
+  create(@Body() createUsersDto: CreateUsersDTO): Promise<User | void> {
     return this.userService.create(createUsersDto);
   }
 
@@ -46,7 +49,7 @@ export class UsersController {
     summary: 'Delete user',
   })
   delete(@Param('id') id: string) {
-    return this.userService.delete(id);
+    return this.userService.remove(id);
   }
 
   @Patch(':id')
@@ -56,7 +59,7 @@ export class UsersController {
   update(
     @Param('id') id: string,
     @Body() UpdateUserDto: UpdateUserDto,
-  ): Promise<User> {
+  ): Promise<User | void> {
     return this.userService.update(id, UpdateUserDto);
   }
 }

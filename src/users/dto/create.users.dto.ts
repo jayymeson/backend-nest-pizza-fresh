@@ -41,5 +41,5 @@ export class CreateUsersDTO {
     example: '26',
     description: 'User age',
   })
-  age?: number;
+  age: number;
 }
