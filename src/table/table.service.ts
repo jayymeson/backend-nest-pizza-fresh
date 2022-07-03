@@ -14,10 +14,10 @@ export class TableService {
   create(createTableDto: CreateTableDTO): Promise<Tables> {
     return this.prisma.table.create({ data: createTableDto });
   }
-  findById(id: string): Promise<Tables> {
+  findOne(id: string): Promise<Tables> {
     return this.prisma.table.findUnique({ where: { id: id } });
   }
-  delete(id: string) {
+  remove(id: string) {
     return this.prisma.table.delete({ where: { id: id } });
   }
 }

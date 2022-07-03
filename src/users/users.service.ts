@@ -23,7 +23,7 @@ export class UsersService {
     };
     return this.prisma.user.create({ data });
   }
-  findById(id: string): Promise<User> {
+  findOne(id: string): Promise<User> {
     return this.prisma.user.findUnique({ where: { id: id } });
   }
   delete(id: string) {
@@ -32,7 +32,7 @@ export class UsersService {
       select: { nickname: true, email: true },
     });
   }
-  update(id: string, createUsersDto: UpdateUserDto) {
+  remove(id: string, createUsersDto: UpdateUserDto) {
     return this.prisma.user.update({ where: { id }, data: createUsersDto });
   }
 }

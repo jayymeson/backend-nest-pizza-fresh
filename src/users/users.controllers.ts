@@ -22,7 +22,7 @@ export class UsersController {
   @ApiOperation({
     summary: 'Find all users',
   })
-  findAll() {
+  findAll(): Promise<User[]> {
     return this.userService.findAll();
   }
 
@@ -30,8 +30,8 @@ export class UsersController {
   @ApiOperation({
     summary: 'Find by id users',
   })
-  findById(@Param('id') id: string): Promise<User> {
-    return this.userService.findById(id);
+  findOne(@Param('id') id: string): Promise<User> {
+    return this.userService.findOne(id);
   }
 
   @Post()
@@ -58,6 +58,6 @@ export class UsersController {
     @Param('id') id: string,
     @Body() UpdateUserDto: UpdateUserDto,
   ): Promise<User> {
-    return this.userService.update(id, UpdateUserDto);
+    return this.userService.remove(id, UpdateUserDto);
   }
 }

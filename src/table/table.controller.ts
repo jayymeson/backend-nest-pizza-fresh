@@ -22,7 +22,7 @@ export class TableControllers {
     summary: 'Find by id tables',
   })
   findById(@Param('id') id: string): Promise<Tables> {
-    return this.tableService.findById(id);
+    return this.tableService.findOne(id);
   }
 
   @Post()
@@ -33,6 +33,6 @@ export class TableControllers {
     return this.tableService.create(createTableDto);
   }
   delete(@Param('id') id: string) {
-    return this.tableService.delete(id);
+    return this.tableService.remove(id);
   }
 }
