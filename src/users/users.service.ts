@@ -8,13 +8,22 @@ import { handleErrorConstraintUnique } from 'src/utils/handle-error.util';
 
 @Injectable()
 export class UsersService {
+  private userSelect = {
+    id: true,
+    nickname: true,
+    email: true,
+    password: false,
+    age: true,
+    createdAt: true,
+    updatedAt: true,
+  };
   constructor(private readonly prisma: PrismaService) {}
 
   findAll(): Promise<User[]> {
     return this.prisma.user.findMany();
   }
 
-  async create(createUsersDto: CreateUsersDTO): Promise<User | void> {
+  async create(createUsersDto: CreateUsersDTO): Promise<User> {
     const hashPassword = await bcryptjs.hash(createUsersDto.password, 8);
     const data: CreateUsersDTO = {
       nickname: createUsersDto.nickname,
@@ -23,12 +32,15 @@ export class UsersService {
       age: createUsersDto.age,
     };
 
-    return this.prisma.user.create({ data }).catch(handleErrorConstraintUnique);
+    return this.prisma.user
+      .create({ data, select: this.userSelect })
+      .catch(handleErrorConstraintUnique);
   }
 
   async verifyingTheUser(id: string): Promise<User> {
     const user: User = await this.prisma.user.findUnique({
       where: { id },
+      select: this.userSelect,
     });
 
     if (!user) {
@@ -49,7 +61,7 @@ export class UsersService {
     await this.verifyingTheUser(id);
 
     return this.prisma.user
-      .update({ where: { id }, data: createUsersDto })
+      .update({ where: { id }, data: createUsersDto, select: this.userSelect })
       .catch(handleErrorConstraintUnique);
   }
 
@@ -58,7 +70,7 @@ export class UsersService {
 
     return this.prisma.user.delete({
       where: { id: id },
-      select: { nickname: true, email: true },
+      select: this.userSelect,
     });
   }
 }

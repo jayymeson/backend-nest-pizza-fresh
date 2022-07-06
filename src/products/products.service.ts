@@ -19,7 +19,7 @@ export class ProductsService {
       .catch(handleErrorConstraintUnique);
   }
 
-  async verifyingTheUser(id: string): Promise<Product> {
+  async verifyingTheProduct(id: string): Promise<Product> {
     const product: Product = await this.prisma.product.findUnique({
       where: { id },
     });
@@ -32,14 +32,14 @@ export class ProductsService {
   }
 
   findOne(id: string): Promise<Product> {
-    return this.verifyingTheUser(id);
+    return this.verifyingTheProduct(id);
   }
 
   async update(
     id: string,
     updateProductDto: UpdateProductDto,
   ): Promise<Product | void> {
-    await this.verifyingTheUser(id);
+    await this.verifyingTheProduct(id);
     return this.prisma.product
       .update({
         where: { id },
@@ -49,7 +49,7 @@ export class ProductsService {
   }
 
   async remove(id: string) {
-    await this.verifyingTheUser(id);
+    await this.verifyingTheProduct(id);
     return this.prisma.product.delete({ where: { id } });
   }
 }
