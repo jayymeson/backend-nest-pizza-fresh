@@ -1,9 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
+import { Order } from './entities/order.entity';
 
 @Injectable()
 export class OrderService {
+  prisma: any;
+  constructor(private readonly prismaService: PrismaService) {}
   create(createOrderDto: CreateOrderDto) {
     return 'This action adds a new order';
   }
@@ -12,15 +15,19 @@ export class OrderService {
     return `This action returns all order`;
   }
 
-  findOne(id: number) {
+  async verifyingTheOrder(id: string): Promise<Order> {
+    const order: Order = await this.prisma.order.findUnique({
+      where: { id },
+    });
+
+    if (!order) {
+      throw new NotFoundException(`ID record '${id}' not found`);
+    }
+
+    return order;
+  }
+
+  findOne(id: string) {
     return `This action returns a #${id} order`;
-  }
-
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} order`;
   }
 }

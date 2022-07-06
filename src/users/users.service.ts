@@ -1,23 +1,29 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnprocessableEntityException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUsersDTO } from './dto/create.users.dto';
 import * as bcryptjs from 'bcryptjs';
 import { UpdateUserDto } from './dto/updated.user.dto';
+import { handleErrorConstraintUnique } from 'src/utils/handle-error.util';
 
 @Injectable()
 export class UsersService {
+  private userSelect = {
+    id: true,
+    nickname: true,
+    email: true,
+    password: false,
+    age: true,
+    createdAt: true,
+    updatedAt: true,
+  };
   constructor(private readonly prisma: PrismaService) {}
 
   findAll(): Promise<User[]> {
     return this.prisma.user.findMany();
   }
 
-  async create(createUsersDto: CreateUsersDTO): Promise<User | void> {
+  async create(createUsersDto: CreateUsersDTO): Promise<User> {
     const hashPassword = await bcryptjs.hash(createUsersDto.password, 8);
     const data: CreateUsersDTO = {
       nickname: createUsersDto.nickname,
@@ -27,13 +33,14 @@ export class UsersService {
     };
 
     return this.prisma.user
-      .create({ data })
-      .catch(this.handleErrorConstraintUnique);
+      .create({ data, select: this.userSelect })
+      .catch(handleErrorConstraintUnique);
   }
 
   async verifyingTheUser(id: string): Promise<User> {
     const user: User = await this.prisma.user.findUnique({
       where: { id },
+      select: this.userSelect,
     });
 
     if (!user) {
@@ -41,16 +48,6 @@ export class UsersService {
     }
 
     return user;
-  }
-
-  handleErrorConstraintUnique(error: Error): never {
-    const splitedMessage = error.message.split('`');
-
-    const errorMessage = `Input '${
-      splitedMessage[splitedMessage.length - 2]
-    }' is not respecting the UNIQUE constraint  `;
-
-    throw new UnprocessableEntityException(errorMessage);
   }
 
   findOne(id: string): Promise<User> {
@@ -64,8 +61,8 @@ export class UsersService {
     await this.verifyingTheUser(id);
 
     return this.prisma.user
-      .update({ where: { id }, data: createUsersDto })
-      .catch(this.handleErrorConstraintUnique);
+      .update({ where: { id }, data: createUsersDto, select: this.userSelect })
+      .catch(handleErrorConstraintUnique);
   }
 
   async remove(id: string) {
@@ -73,7 +70,7 @@ export class UsersService {
 
     return this.prisma.user.delete({
       where: { id: id },
-      select: { nickname: true, email: true },
+      select: this.userSelect,
     });
   }
 }

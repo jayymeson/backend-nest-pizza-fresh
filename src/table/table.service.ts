@@ -15,7 +15,7 @@ export class TableService {
     return this.prisma.table.create({ data: createTableDto });
   }
 
-  async verifyingTheUser(id: string): Promise<Tables> {
+  async verifyingTheTables(id: string): Promise<Tables> {
     const tables: Tables = await this.prisma.table.findUnique({
       where: { id },
     });
@@ -28,11 +28,11 @@ export class TableService {
   }
 
   findOne(id: string): Promise<Tables> {
-    return this.verifyingTheUser(id);
+    return this.verifyingTheTables(id);
   }
 
   async remove(id: string) {
-    await this.verifyingTheUser(id);
+    await this.verifyingTheTables(id);
 
     return this.prisma.table.delete({ where: { id: id } });
   }
