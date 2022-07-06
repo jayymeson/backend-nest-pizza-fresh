@@ -1,9 +1,6 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnprocessableEntityException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { handleErrorConstraintUnique } from 'src/utils/handle-error.util';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
@@ -19,7 +16,7 @@ export class ProductsService {
   async create(createProductDto: CreateProductDto): Promise<Product | void> {
     return this.prisma.product
       .create({ data: createProductDto })
-      .catch(this.handleErrorConstraintUnique);
+      .catch(handleErrorConstraintUnique);
   }
 
   async verifyingTheUser(id: string): Promise<Product> {
@@ -32,16 +29,6 @@ export class ProductsService {
     }
 
     return product;
-  }
-
-  handleErrorConstraintUnique(error: Error): never {
-    const splitedMessage = error.message.split('`');
-
-    const errorMessage = `Input '${
-      splitedMessage[splitedMessage.length - 2]
-    }' is not respecting the UNIQUE constraint  `;
-
-    throw new UnprocessableEntityException(errorMessage);
   }
 
   findOne(id: string): Promise<Product> {
@@ -58,7 +45,7 @@ export class ProductsService {
         where: { id },
         data: updateProductDto,
       })
-      .catch(this.handleErrorConstraintUnique);
+      .catch(handleErrorConstraintUnique);
   }
 
   async remove(id: string) {
