@@ -1,14 +1,29 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { handleErrorConstraintUnique } from 'src/utils/handle-error.util';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { Order } from './entities/order.entity';
 
 @Injectable()
 export class OrderService {
-  prisma: any;
-  constructor(private readonly prismaService: PrismaService) {}
-  create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+  constructor(private readonly prisma: PrismaService) {}
+  create(userId: string, createOrderDto: CreateOrderDto) {
+    const data: Prisma.OrderCreateInput = {
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
+      table: {
+        connect: {
+          number: createOrderDto.tableNumber,
+        },
+      },
+    };
+    return this.prisma.order
+      .create({ data })
+      .catch(handleErrorConstraintUnique);
   }
 
   findAll() {

@@ -8,5 +8,5 @@ export class Order {
   table?: Tables;
   createdAt?: Date;
   updatedAt?: Date;
-  products?: Product;
+  products?: Product[];
 }

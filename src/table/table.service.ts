@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTableDTO } from './dto/create-table.dto';
 import { Tables } from './entities/table.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { handleErrorConstraintUnique } from 'src/utils/handle-error.util';
 
 @Injectable()
 export class TableService {
@@ -12,7 +13,9 @@ export class TableService {
   }
 
   create(createTableDto: CreateTableDTO): Promise<Tables> {
-    return this.prisma.table.create({ data: createTableDto });
+    return this.prisma.table
+      .create({ data: createTableDto })
+      .catch(handleErrorConstraintUnique);
   }
 
   async verifyingTheTables(id: string): Promise<Tables> {
