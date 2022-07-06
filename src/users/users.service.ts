@@ -71,7 +71,7 @@ export class UsersService {
   async remove(id: string) {
     await this.verifyingTheUser(id);
 
-    return this.prisma.user.remove({
+    return this.prisma.user.delete({
       where: { id: id },
       select: { nickname: true, email: true },
     });
