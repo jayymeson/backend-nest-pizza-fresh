@@ -20,7 +20,7 @@ export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   findAll(): Promise<User[]> {
-    return this.prisma.user.findMany();
+    return this.prisma.user.findMany({ select: this.userSelect });
   }
 
   async create(createUsersDto: CreateUsersDTO): Promise<User> {
