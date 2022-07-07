@@ -8,11 +8,11 @@ import { Order } from './entities/order.entity';
 @Injectable()
 export class OrderService {
   constructor(private readonly prisma: PrismaService) {}
-  create(userId: string, createOrderDto: CreateOrderDto) {
+  create(createOrderDto: CreateOrderDto) {
     const data: Prisma.OrderCreateInput = {
       user: {
         connect: {
-          id: userId,
+          id: createOrderDto.userId,
         },
       },
       table: {
@@ -20,9 +20,34 @@ export class OrderService {
           number: createOrderDto.tableNumber,
         },
       },
+      products: {
+        connect: createOrderDto.products.map((productId) => ({
+          id: productId,
+        })),
+      },
     };
     return this.prisma.order
-      .create({ data })
+      .create({
+        data,
+        select: {
+          id: true,
+          table: {
+            select: {
+              number: true,
+            },
+          },
+          user: {
+            select: {
+              nickname: true,
+            },
+          },
+          products: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      })
       .catch(handleErrorConstraintUnique);
   }
 

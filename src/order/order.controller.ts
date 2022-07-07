@@ -13,8 +13,8 @@ export class OrderController {
   @ApiOperation({
     summary: 'Create an order',
   })
-  create(user: Users, @Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(user.id, createOrderDto);
+  create(@Body() createOrderDto: CreateOrderDto) {
+    return this.orderService.create(createOrderDto);
   }
 
   @Get()
