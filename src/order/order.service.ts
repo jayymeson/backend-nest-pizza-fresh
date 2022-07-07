@@ -51,10 +51,6 @@ export class OrderService {
       .catch(handleErrorConstraintUnique);
   }
 
-  findAll() {
-    return `This action returns all order`;
-  }
-
   async verifyingTheOrder(id: string): Promise<Order> {
     const order: Order = await this.prisma.order.findUnique({
       where: { id },
@@ -67,7 +63,57 @@ export class OrderService {
     return order;
   }
 
+  findAll() {
+    return this.prisma.order.findMany({
+      select: {
+        products: {
+          select: {
+            name: true,
+          },
+        },
+        table: {
+          select: {
+            number: true,
+          },
+        },
+        user: {
+          select: {
+            nickname: true,
+          },
+        },
+        _count: {
+          select: {
+            products: true,
+          },
+        },
+      },
+    });
+  }
+
   findOne(id: string) {
-    return `This action returns a #${id} order`;
+    return this.prisma.order.findUnique({
+      where: { id: id },
+      include: {
+        user: {
+          select: {
+            nickname: true,
+          },
+        },
+        table: {
+          select: {
+            number: true,
+          },
+        },
+        products: {
+          select: {
+            id: true,
+            name: true,
+            price: true,
+            image: true,
+            description: true,
+          },
+        },
+      },
+    });
   }
 }
