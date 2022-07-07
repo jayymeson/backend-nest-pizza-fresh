@@ -21,7 +21,6 @@ export class CreateOrderDto {
 
   @ValidateNested({ each: true })
   @Type(() => CreateOrderProductDto)
-  @IsUUID(undefined, { each: true })
   @ApiProperty({
     description: 'List with the IDs of the products that are in the order',
     type: [CreateOrderProductDto],
