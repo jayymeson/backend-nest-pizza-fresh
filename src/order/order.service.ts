@@ -21,11 +21,16 @@ export class OrderService {
         },
       },
       products: {
-        connect: createOrderDto.products.map((productId) => ({
-          id: productId,
-        })),
+        createMany: {
+          data: createOrderDto.products.map((CreateOrderProductDto) => ({
+            productId: CreateOrderProductDto.productId,
+            quantity: CreateOrderProductDto.quantity,
+            description: CreateOrderProductDto.description,
+          })),
+        },
       },
     };
+
     return this.prisma.order
       .create({
         data,
@@ -43,16 +48,16 @@ export class OrderService {
           },
           products: {
             select: {
-              name: true,
+              product: {
+                select: {
+                  name: true,
+                },
+              },
             },
           },
         },
       })
       .catch(handleErrorConstraintUnique);
-  }
-
-  findAll() {
-    return `This action returns all order`;
   }
 
   async verifyingTheOrder(id: string): Promise<Order> {
@@ -67,7 +72,63 @@ export class OrderService {
     return order;
   }
 
+  findAll() {
+    return this.prisma.order.findMany({
+      select: {
+        products: {
+          select: {
+            product: {
+              select: { name: true },
+            },
+          },
+        },
+        table: {
+          select: {
+            number: true,
+          },
+        },
+        user: {
+          select: {
+            nickname: true,
+          },
+        },
+        _count: {
+          select: {
+            products: true,
+          },
+        },
+      },
+    });
+  }
+
   findOne(id: string) {
-    return `This action returns a #${id} order`;
+    return this.prisma.order.findUnique({
+      where: { id: id },
+      include: {
+        user: {
+          select: {
+            nickname: true,
+          },
+        },
+        table: {
+          select: {
+            number: true,
+          },
+        },
+        products: {
+          select: {
+            product: {
+              select: {
+                id: true,
+                name: true,
+                price: true,
+                image: true,
+                description: true,
+              },
+            },
+          },
+        },
+      },
+    });
   }
 }
