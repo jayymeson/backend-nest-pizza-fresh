@@ -48,6 +48,8 @@ model Product {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   orders OrderProduct[]
+  category Category @relation(fields: [categoryId], references: [id])
+  categoryId String @map("category_id ")
 
   @@map("product")
 }
@@ -83,4 +85,15 @@ model OrderProduct {
 
   @@unique([orderId, productId])
   @@map("order_product")
+}
+
+model Category {
+  id String @id @default(uuid())
+  name String @unique
+
+  products Product[]
+  @@map("category")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
