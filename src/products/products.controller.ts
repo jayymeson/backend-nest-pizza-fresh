@@ -44,6 +44,14 @@ export class ProductsController {
     return this.productsService.findOne(id);
   }
 
+  @Get(':id/users-liked')
+  @ApiOperation({
+    summary: 'Lista de usuários que tem o produto do id enviado como favorito',
+  })
+  findUsersLiked(@Param('id') id: string) {
+    return this.productsService.findUsersLiked(id);
+  }
+
   @Patch(':id')
   @ApiOperation({
     summary: 'Update of one products',
