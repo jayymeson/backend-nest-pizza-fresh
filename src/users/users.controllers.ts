@@ -8,7 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { User } from '@prisma/client';
+import { Favorite, User } from '@prisma/client';
 import { CreateUsersDTO } from './dto/create.users.dto';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { UpdateUserDto } from './dto/updated.user.dto';
@@ -34,6 +34,14 @@ export class UsersController {
   })
   findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne(id);
+  }
+
+  @Get('id:/favorites')
+  @ApiOperation({
+    summary: 'Favorite products for users',
+  })
+  findFavoriteProducts(@Param('id') id: string): Promise<Favorite[]> {
+    return this.userService.findFavoriteProducts(id);
   }
 
   @Post()

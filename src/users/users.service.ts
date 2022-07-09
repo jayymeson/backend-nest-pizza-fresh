@@ -20,7 +20,9 @@ export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   findAll(): Promise<User[]> {
-    return this.prisma.user.findMany({ select: this.userSelect });
+    return this.prisma.user.findMany({
+      select: { ...this.userSelect, favorites: true },
+    });
   }
 
   async create(createUsersDto: CreateUsersDTO): Promise<User> {
@@ -40,7 +42,7 @@ export class UsersService {
   async verifyingTheUser(id: string): Promise<User> {
     const user: User = await this.prisma.user.findUnique({
       where: { id },
-      select: this.userSelect,
+      select: { ...this.userSelect, favorites: true },
     });
 
     if (!user) {
@@ -52,6 +54,11 @@ export class UsersService {
 
   findOne(id: string): Promise<User> {
     return this.verifyingTheUser(id);
+  }
+
+  async findFavoriteProducts(id: string) {
+    await this.verifyingTheUser(id);
+    return this.prisma.favorite.findMany({ where: { userId: id } });
   }
 
   async update(

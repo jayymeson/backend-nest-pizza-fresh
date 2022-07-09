@@ -2,8 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { handleErrorConstraintUnique } from 'src/utils/handle-error.util';
 import { CreateProductDto } from './dto/create-product.dto';
+import { FavoriteProductDto } from '../favorite/dto/favorite.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
+import { Favorite } from 'src/favorite/entities/favortite.entity';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class ProductsService {
@@ -51,5 +54,46 @@ export class ProductsService {
   async remove(id: string) {
     await this.verifyingTheProduct(id);
     return this.prisma.product.delete({ where: { id } });
+  }
+
+  async favorite(favoriteProductDto: FavoriteProductDto): Promise<Favorite> {
+    const product: Product = await this.prisma.product.findUnique({
+      where: { name: favoriteProductDto.productName },
+    });
+
+    if (!product) {
+      throw new NotFoundException(
+        `Product of name '${favoriteProductDto.productName}' not found`,
+      );
+    }
+
+    const user: User = await this.prisma.user.findUnique({
+      where: { id: favoriteProductDto.userId },
+    });
+
+    if (!user) {
+      throw new NotFoundException(
+        `Id '${favoriteProductDto.userId}' not found`,
+      );
+    }
+
+    return this.prisma.favorite.create({ data: favoriteProductDto });
+  }
+
+  async unfavorite(id: string) {
+    await this.verifyingTheProduct(id);
+    return this.prisma.favorite.delete({ where: { id: id } });
+  }
+
+  async findUsersLiked(id: string) {
+    const product: Product = await this.verifyingTheProduct(id);
+
+    return this.prisma.favorite.findMany({
+      where: { productName: product.name },
+      select: {
+        product: true,
+        user: { select: { id: true, nickname: true, email: true } },
+      },
+    });
   }
 }
