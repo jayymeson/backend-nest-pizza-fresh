@@ -33,6 +33,7 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   orders Order[]
+  products Product[]
 
   @@map("user")
 }
@@ -48,6 +49,7 @@ model Product {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   orders OrderProduct[]
+  users User[]
 
   category Category @relation(fields: [categoryId], references: [id])
   categoryId String @map("category_id ")
