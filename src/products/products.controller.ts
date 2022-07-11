@@ -12,6 +12,8 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Product } from '@prisma/client';
+import { FavoriteProductDto } from '../favorite/dto/favorite.dto';
+import { Favorite } from 'src/favorite/entities/favortite.entity';
 
 @ApiTags('products')
 @Controller('products')
@@ -42,6 +44,14 @@ export class ProductsController {
     return this.productsService.findOne(id);
   }
 
+  @Get(':id/users-liked')
+  @ApiOperation({
+    summary: 'Lista de usuários que tem o produto do id enviado como favorito',
+  })
+  findUsersLiked(@Param('id') id: string) {
+    return this.productsService.findUsersLiked(id);
+  }
+
   @Patch(':id')
   @ApiOperation({
     summary: 'Update of one products',
@@ -56,5 +66,21 @@ export class ProductsController {
   })
   remove(@Param('id') id: string) {
     return this.productsService.remove(id);
+  }
+
+  @Post('favorite')
+  @ApiOperation({
+    summary: 'Favorite products',
+  })
+  favorite(@Body() favoriteProductDto: FavoriteProductDto): Promise<Favorite> {
+    return this.productsService.favorite(favoriteProductDto);
+  }
+
+  @Delete('favorite/:id')
+  @ApiOperation({
+    summary: 'Unfavor a product',
+  })
+  unfavorite(@Param('id') id: string) {
+    return this.productsService.unfavorite(id);
   }
 }
