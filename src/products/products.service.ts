@@ -6,7 +6,7 @@ import { FavoriteProductDto } from '../favorite/dto/favorite.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { Favorite } from 'src/favorite/entities/favortite.entity';
-import { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 
 @Injectable()
 export class ProductsService {
@@ -77,7 +77,20 @@ export class ProductsService {
       );
     }
 
-    return this.prisma.favorite.create({ data: favoriteProductDto });
+    const data: Prisma.FavoriteCreateInput = {
+      user: {
+        connect: {
+          id: favoriteProductDto.userId,
+        },
+      },
+      product: {
+        connect: {
+          name: favoriteProductDto.productName,
+        },
+      },
+    };
+
+    return this.prisma.favorite.create({ data });
   }
 
   async unfavorite(id: string) {
