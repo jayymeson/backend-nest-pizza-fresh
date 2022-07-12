@@ -21,6 +21,10 @@ To clone the project, you just need to copy the link, and paste it into your ter
 @ production mode
 `$ npm run start:prod`
 
+## DOCUMENTATION IN SWAGGER UI
+
+`$ http://localhost:3001/api/#/ `
+
 ## TECHNOLOGIES USED
 
 <img src="https://img.icons8.com/fluency/48/000000/node-js.png"/>
