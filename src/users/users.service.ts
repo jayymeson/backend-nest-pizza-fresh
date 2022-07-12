@@ -34,6 +34,12 @@ export class UsersService {
       age: createUsersDto.age,
     };
 
+    const hasSpace: boolean = ''.includes(' ');
+
+    if (hasSpace) {
+      console.log('Invalid Nickname');
+    }
+
     return this.prisma.user
       .create({ data, select: this.userSelect })
       .catch(handleErrorConstraintUnique);
