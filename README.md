@@ -26,7 +26,7 @@ To clone the project, you just need to copy the link, and paste it into your ter
 <img src="https://img.icons8.com/fluency/48/000000/node-js.png"/>
 <img src="https://img.icons8.com/fluency/48/000000/prism.png"/>
 
-<a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="48" alt="Nest Logo" /></a>
+<img src="https://i.imgur.com/jAmllrW.png" width="48"
 
 <img src="https://img.icons8.com/color/48/000000/typescript.png"/>
 <img src="https://img.icons8.com/color/48/000000/javascript--v1.png"/>
