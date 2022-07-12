@@ -12,23 +12,23 @@ To clone the project, you just need to copy the link, and paste it into your ter
 
 ## RUN THE PROJECT
 
-`# development`
+@ development
 `$ npm run start`
 
-`# watch mode`
+@ watch mode
 `$ npm run start:dev`
 
-`# production mode`
+@ production mode
 `$ npm run start:prod`
 
 ## TECHNOLOGIES USED
 
-<img src="https://img.icons8.com/fluency/30/000000/node-js.png"/>
+<img src="https://img.icons8.com/fluency/48/000000/node-js.png"/>
 <img src="https://img.icons8.com/fluency/48/000000/prism.png"/>
-<p>
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="30" alt="Nest Logo" /></a>
-</p>
-<img src="https://img.icons8.com/color/30/000000/typescript.png"/>
+
+<a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="48" alt="Nest Logo" /></a>
+
+<img src="https://img.icons8.com/color/48/000000/typescript.png"/>
 <img src="https://img.icons8.com/color/48/000000/javascript--v1.png"/>
 
 ## License
