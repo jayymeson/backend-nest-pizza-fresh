@@ -26,7 +26,7 @@ To clone the project, you just need to copy the link, and paste it into your ter
 <img src="https://img.icons8.com/fluency/48/000000/node-js.png"/>
 <img src="https://img.icons8.com/fluency/48/000000/prism.png"/>
 
-<img src="https://i.imgur.com/jAmllrW.png" width="48"
+<a href="https://imgur.com/jAmllrW"><img src="https://i.imgur.com/jAmllrW.png" width="48" title="source: imgur.com" /></a>
 
 <img src="https://img.icons8.com/color/48/000000/typescript.png"/>
 <img src="https://img.icons8.com/color/48/000000/javascript--v1.png"/>
