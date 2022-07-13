@@ -13,11 +13,14 @@ async function bootstrap() {
     .setDescription('Application for managing orders for a pizzeria... 😋')
     .setVersion('1.0.0')
     .addTag('status')
+    .addTag('auth')
     .addTag('table')
     .addTag('users')
     .addTag('products')
     .addTag('order')
     .addTag('categories')
+    .addTag('favorites')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

@@ -34,7 +34,7 @@ export class UsersService {
       age: createUsersDto.age,
     };
 
-    const hasSpace: boolean = ''.includes(' ');
+    const hasSpace: boolean = 'Jaymeson Mendes'.includes(' ');
 
     if (hasSpace) {
       console.log('Invalid Nickname');
