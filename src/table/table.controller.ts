@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CreateTableDTO } from './dto/create-table.dto';
 import { TableService } from './table.service';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Tables } from './entities/table.entity';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('table')
+@UseGuards(AuthGuard())
+@ApiBearerAuth()
 @Controller('table')
 export class TableControllers {
   constructor(private tableService: TableService) {}
