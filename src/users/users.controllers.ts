@@ -6,8 +6,10 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Favorite, User } from '@prisma/client';
 import { CreateUsersDTO } from './dto/create.users.dto';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -21,6 +23,8 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private userService: UsersService) {}
   @Get()
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Find all users',
   })
@@ -29,6 +33,8 @@ export class UsersController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Find by id users',
   })
@@ -37,6 +43,8 @@ export class UsersController {
   }
 
   @Get('id:/favorites')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Favorite products for users',
   })
@@ -53,6 +61,8 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Delete user',
   })
@@ -61,6 +71,8 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Update user',
   })
