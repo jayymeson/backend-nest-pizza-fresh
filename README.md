@@ -4,26 +4,30 @@ This application was developed for module 4, of the Fullstack Web Development co
 
 ## PROJECT CLONE
 
-To clone the project, you just need to copy the link, and paste it into your terminal with the following command: git clone `$ https://github.com/jayymeson/backend-nest-pizza-fresh.git`
+To clone the project, you just need to copy the link, and paste it into your terminal with the following command: git clone  #https://github.com/jayymeson/backend-nest-pizza-fresh.git
 
 ## INSTALLATION
 
-`$ npm install`
+#$ npm install
 
 ## RUN THE PROJECT
 
-@ development
-`$ npm run start`
+- development
+#$ npm run start
 
-@ watch mode
-`$ npm run start:dev`
+- watch mode
+#$ npm run start:dev
 
-@ production mode
-`$ npm run start:prod`
+- production mode
+#$ npm run start:prod
+
+## DEPLOY LINK
+
+#https://backend-nest-pizza-fresh-production.up.railway.app
 
 ## DOCUMENTATION IN SWAGGER UI
 
-`$ http://localhost:3001/api/#/ `
+#https://backend-nest-pizza-fresh-production.up.railway.app/api/#
 
 ## TECHNOLOGIES USED
 
