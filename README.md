@@ -1,6 +1,10 @@
-# DESCRIPTION
+# PIZZERIA FRESH
+
+## DESCRIPTION
 
 This application was developed for module 4, of the Fullstack Web Development course, by Blue Edtech. This project consists of a REST API of a pizzeria, with CRUD of products, CRUD of users, tables and orders. This project also allows Front to be able to favorite the order and store all this data in a SQL database.
+
+## PREREQUISITES
 
 ## PROJECT CLONE
 
@@ -8,13 +12,14 @@ To clone the project, you just need to copy the link, and paste it into your ter
 
 ## INSTALLATION
 
-```
+```bash
+#
 $ npm install
 ```
 
 ## RUN THE PROJECT
 
-```
+```bash
 # development
 $ npm run start
 
@@ -27,13 +32,15 @@ $ npm run start:prod
 
 ## DEPLOY LINK
 
-```
+```bash
+
 https://backend-nest-pizza-fresh-production.up.railway.app
 ```
 
 ## DOCUMENTATION IN SWAGGER UI
 
-```
+```bash
+
 https://backend-nest-pizza-fresh-production.up.railway.app/api/#
 ```
 
