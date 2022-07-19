@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { handleErrorConstraintUnique } from 'src/utils/handle-error.util';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -12,8 +16,20 @@ import { Prisma, User } from '@prisma/client';
 export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll(): Promise<Product[]> {
-    return this.prisma.product.findMany();
+  async findAll(query: Partial<Product>): Promise<Product[]> {
+    const product: Product[] = await this.prisma.product
+      .findMany({
+        where: query,
+      })
+      .catch(() => {
+        throw new UnprocessableEntityException('Invalid query format');
+      });
+
+    if (product.length === 0) {
+      throw new NotFoundException('No entries found');
+    }
+
+    return product;
   }
 
   async create(createProductDto: CreateProductDto): Promise<Product | void> {

@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -36,8 +37,8 @@ export class ProductsController {
   @ApiOperation({
     summary: 'Find all products',
   })
-  findAll(): Promise<Product[]> {
-    return this.productsService.findAll();
+  findAll(@Query() query: Partial<Product>): Promise<Product[]> {
+    return this.productsService.findAll(query);
   }
 
   @Get(':id')

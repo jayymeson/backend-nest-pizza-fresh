@@ -27,18 +27,14 @@ export class UsersService {
 
   async create(createUsersDto: CreateUsersDTO): Promise<User> {
     const hashPassword = await bcryptjs.hash(createUsersDto.password, 8);
+    const hasSpace = createUsersDto.nickname.replace(/ /g, '').toLowerCase();
+
     const data: CreateUsersDTO = {
-      nickname: createUsersDto.nickname,
+      nickname: hasSpace,
       email: createUsersDto.email,
       password: hashPassword,
       age: createUsersDto.age,
     };
-
-    const hasSpace: boolean = 'Jaymeson Mendes'.includes(' ');
-
-    if (hasSpace) {
-      console.log('Invalid Nickname');
-    }
 
     return this.prisma.user
       .create({ data, select: this.userSelect })
