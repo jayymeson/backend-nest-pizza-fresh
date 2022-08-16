@@ -8,7 +8,7 @@ export class LoginDto {
     description: 'User Nickname',
     example: 'jayymeson',
   })
-  nickname: string;
+  email: string;
 
   @IsString()
   @IsNotEmpty()

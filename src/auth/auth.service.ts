@@ -12,10 +12,10 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
   async login(loginDto: LoginDto): Promise<LoginResponseDto> {
-    const { nickname, password } = loginDto;
+    const { email, password } = loginDto;
 
     const user = await this.prisma.user.findUnique({
-      where: { nickname },
+      where: { email },
     });
 
     if (!user) {
@@ -31,7 +31,7 @@ export class AuthService {
     delete user.password;
 
     return {
-      token: this.jwtService.sign({ nickname }),
+      token: this.jwtService.sign({ email }),
       user,
     };
   }
