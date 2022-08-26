@@ -91,7 +91,7 @@ export class ProductsController {
 
   @Get('users/:id')
   @ApiOperation({
-    summary: 'Listar produtos favoritos de um usuário',
+    summary: 'List a user favorite products',
   })
   getUserFavorites(@Param('id') id: string): Promise<Favorite[]> {
     return this.productsService.getUserFavorites(id);
