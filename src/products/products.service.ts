@@ -125,4 +125,9 @@ export class ProductsService {
       },
     });
   }
+  async getUserFavorites(id: string): Promise<Favorite[]> {
+    await this.verifyingTheProduct(id);
+
+    return this.prisma.favorite.findMany({ where: { userId: id } });
+  }
 }

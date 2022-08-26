@@ -88,4 +88,12 @@ export class ProductsController {
   unfavorite(@Param('id') id: string) {
     return this.productsService.unfavorite(id);
   }
+
+  @Get('users/:id')
+  @ApiOperation({
+    summary: 'Listar produtos favoritos de um usuário',
+  })
+  getUserFavorites(@Param('id') id: string): Promise<Favorite[]> {
+    return this.productsService.getUserFavorites(id);
+  }
 }
