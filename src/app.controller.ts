@@ -11,4 +11,5 @@ export class AppController {
   getAppStatus(): string {
     return this.appService.getAppStatus();
   }
+  // teste
 }
