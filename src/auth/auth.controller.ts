@@ -36,4 +36,17 @@ export class AuthController {
   profile() {
     return { message: 'Successful authentication' };
   }
+
+  @Post('mock-login')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Mock login for a specific user',
+  })
+  mockLogin(): Promise<LoginResponseDto> {
+    const mockUser = {
+      email: 'jaymeson@teste.com.br',
+      password: 'Abc1234*',
+    };
+    return this.authService.mockLogin(mockUser);
+  }
 }

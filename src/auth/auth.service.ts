@@ -35,4 +35,23 @@ export class AuthService {
       user,
     };
   }
+
+  async mockLogin(loginDto: LoginDto): Promise<LoginResponseDto> {
+    // Aqui você pode buscar o usuário mock diretamente ou criar uma lógica específica
+    const user = await this.prisma.user.findUnique({
+      where: { email: loginDto.email },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Mock user not found');
+    }
+
+    // Assumindo que a senha já está correta, pois é um mock
+    delete user.password;
+
+    return {
+      token: this.jwtService.sign({ email: user.email }),
+      user,
+    };
+  }
 }
